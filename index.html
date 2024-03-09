@@ -1,1 +1,411 @@
-check
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"> </script>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="SOTA for audio watermarking application.">
+  <meta property="og:title" content="SilentCipher: Deep Audio Watermarking"/>
+  <meta property="og:description" content="SOTA for audio watermarking application."/>
+  <meta property="og:url" content="https://interspeech2024.github.io/silentcipher"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <!-- <meta property="og:image" content="static/image/icon.png" /> -->
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+
+  <meta name="twitter:title" content="SilentCipher: Deep Audio Watermarking">
+  <meta name="twitter:description" content="SOTA for audio watermarking application.">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <!-- <meta name="twitter:image" content="static/images/icon.png"> -->
+  <!-- <meta name="twitter:card" content="icon.png"> -->
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="audio watermarking, psychoacoustic models, pseudo differentiable audio compression">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>SilentCipher</title>
+  <!-- <link rel="icon" type="image/x-icon" href="static/images/icon.png"> -->
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title"><font color="#ff6a00">SilentCipher</font>: Deep Audio Watermarking</h1>
+            <div class="is-size-5 publication-authors">
+              Anonymous Submition
+              <!-- Paper authors -->
+              <!-- <span class="author-block">
+              <a href="https://sites.google.com/view/dongjun-kim" target="_blank">Dongjun Kim</a><span><sup>&#10059;,</sup></span><span><sup>&#9832;1</sup></span>,</span>
+                <span class="author-block">
+                <a href="https://chiehhsinjesselai.github.io/ChiehHsinLai/" target="_blank">Chieh-Hsin Lai</a><span><sup>&#10059;,</sup></span><span><sup>1</sup></span>,</span><br>
+                  <span class="author-block">
+                  <span>Wei-Hsiang Liao</span><span><sup>1</sup></span>,</span>
+                      <span class="author-block">
+                      <span>Naoki Murata</span><span><sup>1</sup></span>,</span>
+                        <span class="author-block">
+                        <span>Yuhta Takida</span><span><sup>1</sup></span>,</span>
+                          <span class="author-block">
+                          <span>Toshimitsu Uesaka</span><span><sup>1</sup></span>,</span>          
+                            <span class="author-block">
+                            <a href="https://kellyyutonghe.github.io/" target="_blank">Yutong He</a><span><sup>&#9832;1,3</sup></span></a>,</span><br>
+                              <span class="author-block">
+                              <a href="https://www.yukimitsufuji.com/" target="_blank">Yuki Mitsufuji</a><span><sup>1,2</sup></span>,</span>
+                                <span class="author-block">
+                                <a href="https://cs.stanford.edu/~ermon/" target="_blank">Stefano Ermon</a><span><sup>4</sup></span>,</span>
+                  </span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block"><sup>1</sup>Sony AI, <sup>2</sup>Sony Group Corporation, <sup>3</sup>Carnegie Mellon University, <sup>4</sup>Stanford University<br>ICLR 2024</span>
+                    <span class="eql-cntrb"><small><br><sup>&#10059;</sup>Equal Contribution (<a href=mailto:dongjoun57@kaist.ac.kr>&#9993; Dongjun Kim</a>; <a href=mailto:chieh-hsin.lai@sony.com>&#9993;  Chieh-Hsin Lai</a>) </small></span>
+                    <span class="eql-cntrb"><small><br><sup>&#9832;</sup>Internship at Sony AI</small></span>
+                  </div>
+                  
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         Arxiv PDF link
+                      <span class="link-block">
+                        <a href="https://openreview.net/forum?id=ymjI8feDTD" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>ICLR'24 OpenReview</span>
+                      </a>
+                    </span>
+
+                    Supplementary PDF link 
+                    <span class="link-block">
+                      <a href="static/pdfs/supplementary_material.pdf" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Supplementary </span>
+                    </a>
+                  </span>
+
+                  ArXiv abstract Link
+                  <span class="link-block">
+                    <a href="https://arxiv.org/abs/2310.02279" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+
+                Github link
+                <span class="link-block">
+                  <a href="https://github.com/sony/ctm" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Codes</span>
+                </a>
+              </span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Paper TL;DR -->
+<!-- <section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">TL;DR</h2>
+        <div class="content has-text-justified">
+          <p>
+              We propose a audio watermarking algorithm which is SOTA in terms of robustness as well as the imperceptibility of the embedded watermark.
+              We compare our algorithm against the baselines wavmark, AudioWMark and RobustDNN and display some of the samples from each model.          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<!-- End paper TL;DR -->
+
+<!-- <br> -->
+<!-- Teaser video-->
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <span class="eql-cntrb"><small><br><center><img src="static/images/cifar_badge.svg" alt="MY ALT TEXT" width="100%"/></center></small></span>
+      <center><img src="static/images/sample_1_986995.png" alt="MY ALT TEXT" class="center" width="2304" height="1534"/></center>
+      <h2 class="subtitle has-text-centered">
+        Random generated samples by <font color="#ff6a00">CTM</font>, trained on ImageNet 64x64.
+      </h2>
+    </div>
+  </div>
+</section> -->
+<!-- End teaser video -->
+
+
+
+  
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <h2 class="title is-3 text-center">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Consistency Models (CM) (Song et al., 2023) accelerate score-based diffusion model sampling at the cost of sample quality but lack a natural way to trade-off quality for speed. To address this limitation, we propose <font color="#ff6a00"><b>C</b></font>onsistency <font color="#ff6a00"><b>T</b></font>rajectory <font color="#ff6a00"><b>M</b></font>odel (<font color="#ff6a00"><b>CTM</b></font>), a generalization encompassing CM and score-based models as special cases. <font color="#ff6a00">CTM</font> trains a single neural network that can -- in a single forward pass -- output scores (i.e., gradients of log-density) and enables unrestricted traversal between any initial and final time along the Probability Flow Ordinary Differential Equation (ODE) in a diffusion process. <font color="#ff6a00">CTM</font> enables the efficient combination of adversarial training and denoising score matching loss to enhance performance and achieves new state-of-the-art FIDs for single-step diffusion model sampling on CIFAR-10 (FID 1.73) and ImageNet at 64X64 resolution (FID 1.92). <font color="#ff6a00">CTM</font> also enables a new family of sampling schemes, both deterministic and stochastic, involving long jumps along the ODE solution trajectories. It consistently improves sample quality as computational budgets increase, avoiding the degradation seen in CM. Furthermore, <font color="#ff6a00">CTM</font>'s access to the score accommodates all diffusion model inference techniques, including exact likelihood computation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+
+
+<section class="section hero is-light mt-3">
+  <h2 class="title is-3 text-center">Audio Samples</h2>
+  <div class="container-fluid title is-size-5 text-center py-3">
+    <div class="row">
+      <div class="col-md">
+        Original
+      </div>
+      <div class="col-md">
+        RobustDNN
+      </div>
+      <div class="col-md">
+        WavMark
+      </div>
+      <div class="col-md">
+        AudioWMark
+      </div>
+      <div class="col-md">
+        SilentCipher (Proposed Method)
+      </div>
+      <hr class="mt-3">
+    </div>
+    <div class="row">
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/original/001_00.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+        <audio src=""></audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/robustdnn/001_00.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/wavmark/001_00.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/audiowmark/001_00.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/silentcipher/001_00.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <hr class="mt-3">
+    </div>
+    
+    <div class="row">
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/original/002_00.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+        <audio src=""></audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/robustdnn/002_00.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/wavmark/002_00.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/audiowmark/002_00.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/silentcipher/002_00.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <hr class="mt-3">
+    </div>
+    
+    <div class="row">
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/original/003_23.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+        <audio src=""></audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/robustdnn/003_23.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/wavmark/003_23.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/audiowmark/003_23.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/silentcipher/003_23.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <hr class="mt-3">
+    </div>
+    
+    <div class="row">
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/original/018_23.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+        <audio src=""></audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/robustdnn/018_23.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/wavmark/018_23.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/audiowmark/018_23.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="col-md">
+        <audio controls class="w-100">
+          <source src="static/audio/silentcipher/018_23.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <hr class="mt-3">
+    </div>
+  </div>
+</section>
+
+
+<!--BibTex citation -->
+  <!-- <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@article{kim2023consistency,
+  title={Consistency Trajectory Models: Learning Probability Flow ODE Trajectory of Diffusion},
+  author={Kim, Dongjun and Lai, Chieh-Hsin and Liao, Wei-Hsiang and Murata, Naoki and Takida, Yuhta and Uesaka, Toshimitsu and He, Yutong and Mitsufuji, Yuki and Ermon, Stefano},
+  journal={arXiv preprint arXiv:2310.02279},
+  year={2023}
+}</code></pre>
+    </div>
+</section> -->
+<!--End BibTex citation -->
+
+<div style="text-align: right;">
+  <script type="text/javascript" src="https://www.free-counters.org/count/e12t"></script>
+  <br>
+  <a href='https://www.acadoo.de/' style="display: hidden;">Doktorarbeit Writer</a>
+  <script type='text/javascript' src='https://whomania.com/ctr?id=988e6ad048a0bd06136f8c1c5996d024cef19665'></script>
+</div>
+  
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
